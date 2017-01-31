@@ -2,13 +2,6 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-	"vmSku": {
-	    "type": "string",
-	    "defaultValue": "Standard_A1",
-	    "metadata": {
-		"description": "Size of VMs in the VM Scale Set."
-	    }
-	},
 	"ubuntuOSVersion": {
 	    "type": "string",
 	    "defaultValue": "14.04.4-LTS",
@@ -160,7 +153,7 @@
 		"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
 	    ],
 	    "sku": {
-		"name": "[parameters('vmSku')]",
+		"name": "Standard_DS1",
 		"tier": "Standard",
 		"capacity": "[parameters('instanceCount')]"
 	    },
@@ -173,7 +166,10 @@
 		    "storageProfile": {
 			"osDisk": {
 			    "createOption": "FromImage",
-			    "diskSizeGB": "100"
+			    "diskSizeGB": "100",
+			    "managedDiskProperties": {
+				"storageAccountType": "Premium_LRS"
+			    }
 			},
 			"imageReference": "[variables('imageReference')]",
 			"dataDisks": [
